@@ -49,6 +49,9 @@ App.prototype = {
 
     },
     events: {
+        /**
+         * Events für die Verbindung zum Socketserver
+         */
         websocketConnect: function () {
             // Teile des Server den Clientmodus mit
             this.ws.send(JSON.stringify({
@@ -77,17 +80,21 @@ App.prototype = {
             console.log('Websocket Close')
         },
 
+        // Events von unf für Befehle vom Socketserver
+
         /**
-         * EVENTS VOM Socketserver
+         * Muss Aktiv getriggert werden, fordert eine neue ID an. Im Erfolgsfall wird der Event ID getriggert.
+         * @constructor
          */
-        // fordert vom Server eine neue SessionID an
         NEWID: function () {
             this.ws.send(JSON.stringify({
                 command: 'HOST'
             }));
         },
 
-        // Wird getriggert, wenn der Server eine neue ID schickt
+        /**
+         * Wird getriggert, wenn der Server eine neue ID schickt
+         */
         ID: function (options) {
             console.log(options.data.value);
         }
