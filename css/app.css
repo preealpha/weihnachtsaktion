@@ -6,3 +6,12 @@ body {
     margin: 0px;
     background: black;
 }
+
+@font-face {
+    font-family: 'DINAlternateMedium';
+    src: url('../fonts/din-mediumalternate-webfont.eot');
+    src: local('☺'), url('../fonts/din-mediumalternate-webfont.woff') format('woff'), url('../fonts/din-mediumalternate-webfont.ttf') format('truetype'), url('../fonts/din-mediumalternate-webfont.svg#webfontmiec3a3e') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

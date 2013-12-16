@@ -45,26 +45,50 @@ App.prototype = {
         }
 
 
-        var c = this.svg.rect(0, 0, 10, 10);
-        c.attr({
-            fill: "#bada55",
-            stroke: "#000",
-            strokeWidth: 0,
-            height: '100%',
-            width: '100%'
-        });
-
-
         //Verbindung zum Socketserver
+        this.connect();
+
+    },
+    connect: function () {
         this.ws = new WebSocket(this.socketAddr);
         this.ws.onopen = this.events.websocketConnect.bind(this);
         this.ws.onmessage = this.events.websocketMessage.bind(this);
         this.ws.onerror = this.events.websocketError.bind(this);
         this.ws.onclose = this.events.websocketClose.bind(this);
-
     },
+
+    stages: [],
+    showStage: function (stage) {
+        for (var i in this.stages) {
+            this.removeStage(i);
+        }
+        this.stages.push(stage);
+        stage.initialize();
+    },
+
+    removeStage: function (pos) {
+        this.stages[pos].destroy(_.bind(this.clearStage, this, pos));
+    },
+
+    clearStage: function (pos) {
+        var newStages = [];
+        for (var i in this.stages) {
+            if (i != pos) {
+                newStages.push(this.stages[i])
+            }
+        }
+        this.stages = newStages;
+    },
+
     events: {
         resize: function (size) {
+
+            for (var i in this.stages) {
+                if (_.isFunction(this.stages[i].resize)) {
+                    this.stages[i].resize(size);
+                }
+            }
+
             if (_.isUndefined(this.stage)) {
                 this.stage = {
                     width: parseFloat(app.svg.attr('width')),
@@ -120,6 +144,9 @@ App.prototype = {
             // Wenn Clientmodus == DESKTOP frage eine SessionID an
             if (this.mode == BROWSER_DESKTOP) {
                 this.trigger('NEWID');
+            } else {
+                var stage = new EnterCode(this);
+                this.showStage(stage);
             }
         },
         websocketMessage: function (msg) {
@@ -135,7 +162,8 @@ App.prototype = {
             console.log('Websocket Error')
         },
         websocketClose: function () {
-            console.log('Websocket Close')
+            var stage = new NoServer(this);
+            this.showStage(stage);
         },
 
         // Events von unf für Befehle vom Socketserver
@@ -154,7 +182,8 @@ App.prototype = {
          * Wird getriggert, wenn der Server eine neue ID schickt
          */
         ID: function (options) {
-            console.log(options.data.value);
+            var stage = new ShowCode(this, options.data.value);
+            this.showStage(stage);
         }
 
     }
