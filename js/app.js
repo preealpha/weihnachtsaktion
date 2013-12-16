@@ -26,19 +26,34 @@ App.prototype = {
             }
         }.bind(this));
 
+        // Überprüfen, ob wir uns auf einer Mobil oder Destomumgebung befinden
+        this.mode = jQuery.browser.mobile ? BROWSER_MOBILE : BROWSER_DESKTOP;
+
         // SVG Bühne erstellen
-        this.svg = Snap('100%', '100%');
+        switch (this.mode) {
+            case BROWSER_DESKTOP:
+                this.svg = Snap('400', '800');
+                var lazyResize = _.debounce(function () {
+                    this.trigger('resize', {width: $(window).width(), height: $(window).height()});
+                }.bind(this), 10);
+                $(window).resize(lazyResize);
+                lazyResize();
+                break;
+            case BROWSER_MOBILE:
+                this.svg = Snap('100%', '100%');
+                break;
+        }
+
 
         var c = this.svg.rect(0, 0, 10, 10);
         c.attr({
             fill: "#bada55",
             stroke: "#000",
             strokeWidth: 0,
-            height: '100%'
+            height: '100%',
+            width: '100%'
         });
 
-        // Überprüfen, ob wir uns auf einer Mobil oder Destomumgebung befinden
-        this.mode = jQuery.browser.mobile ? BROWSER_MOBILE : BROWSER_DESKTOP;
 
         //Verbindung zum Socketserver
         this.ws = new WebSocket(this.socketAddr);
@@ -49,6 +64,49 @@ App.prototype = {
 
     },
     events: {
+        resize: function (size) {
+            if (_.isUndefined(this.stage)) {
+                this.stage = {
+                    width: parseFloat(app.svg.attr('width')),
+                    height: parseFloat(app.svg.attr('height'))
+                }
+            }
+            var ratio = this.stage.width / this.stage.height;
+
+            var fitHorizontal = {
+                width: size.height * ratio,
+                height: size.height
+            }
+
+            var fitVertical = {
+                width: size.width,
+                height: size.width / ratio
+            }
+
+            var actualSize = {};
+
+            if (fitHorizontal.width <= size.width && fitHorizontal.height <= size.height) {
+                this.svg.attr({
+                    width: fitHorizontal.width + 'px',
+                    height: fitHorizontal.height + 'px'
+                });
+                actualSize = fitHorizontal;
+            } else {
+                this.svg.attr({
+                    width: fitVertical.width + 'px',
+                    height: fitVertical.height + 'px'
+                });
+                actualSize = fitVertical;
+            }
+
+            var position = {
+                left: (size.width / 2) - (actualSize.width / 2),
+                top: (size.height / 2) - (actualSize.height / 2)
+            }
+            $('svg').offset(position);
+
+
+        },
         /**
          * Events für die Verbindung zum Socketserver
          */
