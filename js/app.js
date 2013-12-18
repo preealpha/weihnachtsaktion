@@ -29,6 +29,9 @@ App.prototype = {
         // Überprüfen, ob wir uns auf einer Mobil oder Destomumgebung befinden
         this.mode = jQuery.browser.mobile ? BROWSER_MOBILE : BROWSER_DESKTOP;
 
+        // Hack, wenn #mobile dann starte im mobile mode
+        if (window.location.hash == '#mobile') this.mode = BROWSER_MOBILE;
+
         // SVG Bühne erstellen
         switch (this.mode) {
             case BROWSER_DESKTOP:
@@ -41,6 +44,11 @@ App.prototype = {
                 break;
             case BROWSER_MOBILE:
                 this.svg = Snap('100%', '100%');
+                var lazyResize = _.debounce(function () {
+                    this.trigger('resize', {width: $(window).width(), height: $(window).height()});
+                }.bind(this), 10);
+                $(window).resize(lazyResize);
+                lazyResize();
                 break;
         }
 
@@ -88,46 +96,47 @@ App.prototype = {
                     this.stages[i].resize(size);
                 }
             }
-
-            if (_.isUndefined(this.stage)) {
-                this.stage = {
-                    width: parseFloat(app.svg.attr('width')),
-                    height: parseFloat(app.svg.attr('height'))
+            if (this.mode == BROWSER_DESKTOP) {
+                if (_.isUndefined(this.stage)) {
+                    this.stage = {
+                        width: parseFloat(app.svg.attr('width')),
+                        height: parseFloat(app.svg.attr('height'))
+                    }
                 }
-            }
-            var ratio = this.stage.width / this.stage.height;
+                var ratio = this.stage.width / this.stage.height;
 
-            var fitHorizontal = {
-                width: size.height * ratio,
-                height: size.height
-            }
+                var fitHorizontal = {
+                    width: size.height * ratio,
+                    height: size.height
+                }
 
-            var fitVertical = {
-                width: size.width,
-                height: size.width / ratio
-            }
+                var fitVertical = {
+                    width: size.width,
+                    height: size.width / ratio
+                }
 
-            var actualSize = {};
+                var actualSize = {};
 
-            if (fitHorizontal.width <= size.width && fitHorizontal.height <= size.height) {
-                this.svg.attr({
-                    width: fitHorizontal.width + 'px',
-                    height: fitHorizontal.height + 'px'
-                });
-                actualSize = fitHorizontal;
-            } else {
-                this.svg.attr({
-                    width: fitVertical.width + 'px',
-                    height: fitVertical.height + 'px'
-                });
-                actualSize = fitVertical;
-            }
+                if (fitHorizontal.width <= size.width && fitHorizontal.height <= size.height) {
+                    this.svg.attr({
+                        width: fitHorizontal.width + 'px',
+                        height: fitHorizontal.height + 'px'
+                    });
+                    actualSize = fitHorizontal;
+                } else {
+                    this.svg.attr({
+                        width: fitVertical.width + 'px',
+                        height: fitVertical.height + 'px'
+                    });
+                    actualSize = fitVertical;
+                }
 
-            var position = {
-                left: (size.width / 2) - (actualSize.width / 2),
-                top: (size.height / 2) - (actualSize.height / 2)
+                var position = {
+                    left: (size.width / 2) - (actualSize.width / 2),
+                    top: (size.height / 2) - (actualSize.height / 2)
+                }
+                $('svg').offset(position);
             }
-            $('svg').offset(position);
 
 
         },
