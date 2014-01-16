@@ -18,20 +18,37 @@ EnterCode.prototype = {
         this.image.landscape.normalSize = {width: 533, height: 400};
         this.image.landscape.attr({opacity: 0});
 
+        this.bubble = this.parent.svg.image('img/interface_code_blase.png', 0, 0);
+        this.bubble.normalSize = {width: 400, height: 350};
+
+        this.text = this.parent.svg.text(30, 30, '');
+        this.text.attr({
+            fill: "#000000",
+            opacity: 1,
+            "font-size": 20,
+            "text-anchor": "middle",
+            "font-family": 'DINAlternateMedium'
+        });
+
         this.button0 = new this.button(
             this,
             'img/interface_code_0-def.png',
             'img/interface_code_0-act.png',
             0, 0, 120, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '0'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button1 = new this.button(
@@ -40,14 +57,19 @@ EnterCode.prototype = {
             'img/interface_code_1-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '1'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button2 = new this.button(
@@ -56,14 +78,19 @@ EnterCode.prototype = {
             'img/interface_code_2-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '2'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button3 = new this.button(
@@ -72,14 +99,19 @@ EnterCode.prototype = {
             'img/interface_code_3-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '3'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button4 = new this.button(
@@ -88,14 +120,19 @@ EnterCode.prototype = {
             'img/interface_code_4-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '4'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button5 = new this.button(
@@ -104,14 +141,19 @@ EnterCode.prototype = {
             'img/interface_code_5-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '5'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button6 = new this.button(
@@ -120,14 +162,19 @@ EnterCode.prototype = {
             'img/interface_code_6-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '6'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button7 = new this.button(
@@ -136,14 +183,19 @@ EnterCode.prototype = {
             'img/interface_code_7-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '7'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button8 = new this.button(
@@ -152,14 +204,19 @@ EnterCode.prototype = {
             'img/interface_code_8-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '8'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.button9 = new this.button(
@@ -168,14 +225,19 @@ EnterCode.prototype = {
             'img/interface_code_9-act.png',
             0, 0, 80, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length < 4) {
+                    text += '9'
+                }
+                if (text.length == 4) {
+                    this.parent.trigger('DOJOIN', text);
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
         this.buttonB = new this.button(
@@ -184,17 +246,19 @@ EnterCode.prototype = {
             'img/interface_code_back-act.png',
             0, 0, 120, 60,
             function () {
-                console.log('Down');
-            },
+            }.bind(this),
             function () {
-                console.log('Up');
-            },
+            }.bind(this),
             function () {
-                console.log('Click');
-            }
+                var text = this.text.attr('text');
+                if (text.length > 0) {
+                    text = text.substring(0, text.length - 1)
+                }
+                this.text.attr('text', text);
+            }.bind(this)
         );
 
-        _.delay(_.bind(this.resize, this, {width: $(window).width(), height: $(window).height()}), 50);
+        _.delay(_.bind(this.resize, this, {width: $(window).width(), height: $(window).height()}), 100);
 
     },
 
@@ -249,7 +313,7 @@ EnterCode.prototype = {
         });
         this.button.touchend(function () {
             this[1].attr({opacity: 0});
-            callbackClick();
+            //callbackClick();
         });
         this.button.touchcancel(function () {
             this[1].attr({opacity: 0});
@@ -259,6 +323,10 @@ EnterCode.prototype = {
         this.doResize = function (x, y, width, height) {
             this.button[0].attr({x: x, y: y, width: width, height: height});
             this.button[1].attr({x: x, y: y, width: width, height: height});
+        }
+
+        this.doRemove = function () {
+            this.button.remove();
         }
     },
 
@@ -298,6 +366,11 @@ EnterCode.prototype = {
             var button3_2WPosY = size.height - button2Height - button3Height * 2;
             var button3_3WPosY = size.height - button2Height - button3Height;
             var button2_1WPosY = size.height - button2Height;
+
+            var sizeRest = {}
+            sizeRest.width = size.width;
+            sizeRest.height = size.height - (button2Height + (3 * button3Height));
+
         } else {
             var button3ratio = 80 / 60;
             var button2ratio = 120 / 60;
@@ -320,7 +393,23 @@ EnterCode.prototype = {
             var button3_2WPosY = size.height - button2Height - button3Height * 2;
             var button3_3WPosY = size.height - button2Height - button3Height;
             var button2_1WPosY = size.height - button2Height;
+
+            var sizeRest = {}
+            sizeRest.height = size.height;
+            sizeRest.width = size.width - (2 * button2Width);
         }
+
+
+        var sizeBubble = this.fitScreen(sizeRest, this.bubble.normalSize);
+        this.bubble.attr(sizeBubble);
+
+        var fontSizeRatio = sizeBubble.height / this.bubble.normalSize.height;
+        this.text.attr({
+            x: sizeRest.width / 2,
+            y: sizeRest.height / 2 + (20 * fontSizeRatio),
+            "font-size": 35 * fontSizeRatio
+
+        });
 
         this.button1.doResize(button3_1WPosX, button3_1WPosY, button3Width, button3Height);
         this.button2.doResize(button3_2WPosX, button3_1WPosY, button3Width, button3Height);
@@ -340,10 +429,31 @@ EnterCode.prototype = {
     },
 
     destroy: function (callback) {
-        this.image.animate({opacity: 1}, 500, mina.easeout, function () {
+        this.image.portrait.animate({opacity: 1}, 500, mina.easeout, function () {
             this.remove();
             callback();
         });
+        this.image.landscape.animate({opacity: 1}, 500, mina.easeout, function () {
+            this.remove();
+        });
+
+        this.bubble.animate({opacity: 1}, 500, mina.easeout, function () {
+            this.remove();
+        });
+        this.text.animate({opacity: 1}, 500, mina.easeout, function () {
+            this.remove();
+        });
+        this.button0.doRemove();
+        this.button1.doRemove();
+        this.button2.doRemove();
+        this.button3.doRemove();
+        this.button4.doRemove();
+        this.button5.doRemove();
+        this.button6.doRemove();
+        this.button7.doRemove();
+        this.button8.doRemove();
+        this.button9.doRemove();
+        this.buttonB.doRemove();
     }
 }
 

@@ -75,6 +75,7 @@ App.prototype = {
     },
 
     removeStage: function (pos) {
+        console.log(pos)
         this.stages[pos].destroy(_.bind(this.clearStage, this, pos));
     },
 
@@ -185,6 +186,68 @@ App.prototype = {
             this.ws.send(JSON.stringify({
                 command: 'HOST'
             }));
+        },
+
+        /**
+         * Joint einer bestehenden Session
+         * @constructor
+         */
+        DOJOIN: function (id) {
+            this.ws.send(JSON.stringify({
+                command: 'JOIN',
+                data: { id: id + '' }
+            }));
+        },
+
+        /**
+         * Wenn ein Mobilclient Joint
+         * @constructor
+         */
+        JOIN: function (options) {
+            if (options.data.status) {
+                var stage = new GameController(this);
+                this.showStage(stage);
+            } else {
+                this.stages[0].text.attr('text', '');
+                alert('Falscher Code');
+            }
+        },
+        JOINED: function (options) {
+            var stage = new Game(this);
+            this.showStage(stage);
+        },
+
+
+        PING: function () {
+            app.ws.send(JSON.stringify({
+                command: 'BUTTON',
+                data: {action: 'PING'}
+            }));
+        },
+
+        PUSHBUTTON: function (action) {
+            app.ws.send(JSON.stringify({
+                command: 'BUTTON',
+                data: {action: action}
+            }));
+        },
+
+        BUTTON: function (options) {
+            switch (options.data.action) {
+                case 'PING':
+                    this.stages[0].ping();
+                    break;
+                default:
+                    this.stages[0].buttonaction(options.data.action);
+            }
+        },
+
+        CLOSE: function () {
+            this.ws.send(JSON.stringify({
+                command: 'LEAVE'
+            }));
+            var stage = new EnterCode(this);
+            this.showStage(stage);
         },
 
         /**
